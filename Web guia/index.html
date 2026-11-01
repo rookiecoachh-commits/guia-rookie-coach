@@ -73,15 +73,36 @@
         <li><b>5</b>4 porterías <small>· toma de decisión</small></li>
       </ul>
 
-      <form id="f" data-email="rookiecoachh@gmail.com" novalidate>
-        <label class="l" for="email">¿A qué email te aviso de nuevos ejercicios?</label>
-        <div class="row">
-          <input id="email" type="email" name="email" placeholder="tu@email.com" autocomplete="email" required>
-          <button id="b" type="submit">Descargar gratis ↓</button>
-        </div>
-        <label class="ok"><input id="acepto" type="checkbox" required> Acepto recibir emails de Rookie Coach con ejercicios y novedades. Puedes darte de baja cuando quieras.</label>
-        <div class="err" id="err"></div>
-      </form>
+     <form action="https://formsubmit.co/rookiecoachhO@gmail.com"
+      method="POST">
+
+  <input type="hidden" name="_subject"
+         value="Nuevo entrenador: guía gratis F8">
+
+  <input type="hidden" name="_template" value="table">
+
+  <input type="hidden" name="_autoresponse"
+         value="¡Gracias por confiar en Rookie Coach! Aquí tienes tu guía gratuita de 5 ejercicios de Fútbol 8: https://rookie-coach-six.vercel.app/guia-5-ejercicios-futbol8.pdf">
+
+  <input type="hidden" name="_next"
+         value="https://rookie-coach-six.vercel.app/gracias.html">
+
+  <label class="l" for="email">¿A qué email te aviso de nuevos ejercicios?</label>
+
+  <div class="row">
+    <input id="email" type="email" name="email"
+           placeholder="tu@email.com" required>
+
+    <button type="submit">Descargar gratis ↓</button>
+  </div>
+
+  <label class="ok">
+    <input type="checkbox" name="consentimiento"
+           value="Aceptado" required>
+    Acepto recibir emails de Rookie Coach con ejercicios y novedades.
+    Puedes darte de baja cuando quieras.
+  </label>
+</form>
 
       <div class="done" id="done">
         <h3>¡Ya es tuya! ⚽</h3>
