@@ -1,0 +1,25 @@
+PÁGINA DE LA GUÍA GRATIS · CÓMO PUBLICARLA EN VERCEL (unos 10 minutos)
+
+ANTES (1 minuto)
+Abre index.html con el Bloc de notas. Busca CAMBIAR@gmail.com y pon el Gmail de Rookie Coach. Guarda.
+Ahí te llegará un email con cada entrenador que se descargue la guía.
+La primera vez que alguien la descargue, FormSubmit te mandará un email para activarlo: pulsa "Activate" y listo.
+
+1. GITHUB (donde se guarda la página)
+   - Entra en github.com y crea una cuenta con el Gmail de Rookie Coach.
+   - Pulsa "New repository". Nombre: guia-rookie-coach. Ponlo en Public. Pulsa "Create repository".
+   - Pulsa "uploading an existing file" y arrastra estos archivos de esta carpeta:
+     index.html, guia-5-ejercicios-futbol8.pdf, portada.jpg, icono.png
+   - Pulsa "Commit changes".
+
+2. VERCEL (lo que la pone en internet)
+   - Entra en vercel.com y pulsa "Sign up" > "Continue with GitHub".
+   - Pulsa "Add New..." > "Project", elige guia-rookie-coach y pulsa "Import".
+   - No toques nada más. Pulsa "Deploy".
+   - En 30 segundos tendrás un enlace tipo guia-rookie-coach.vercel.app
+
+3. TIKTOK
+   Cuando alguien comente "entrenador", respóndele por mensaje:
+   "¡Aquí tienes tu guía! 👉 guia-rookie-coach.vercel.app"
+
+Para cambiar algo de la página más adelante, vuelve a subir el archivo en GitHub y Vercel la actualiza sola.
