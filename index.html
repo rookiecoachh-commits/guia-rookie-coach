@@ -12,8 +12,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@500;600;800;900&display=swap" rel="stylesheet">
 <style>
-  /* ===== CONFIGURA AQUÍ =====
-     Los emails llegan a la dirección que pongas en data-email (abajo, en <form>). */
+  /* Los avisos de cada descarga llegan al email de data-email (en <form>). */
   :root{--bg1:#070B16;--bg2:#0F1A33;--panel:#121C36;--lime:#C8FF2E;--orange:#FF7A1A;--grey:#9AA6C2;--ink:#0A0F1E}
   *{box-sizing:border-box;margin:0;padding:0}
   html{background:var(--bg1)}
@@ -73,36 +72,15 @@
         <li><b>5</b>4 porterías <small>· toma de decisión</small></li>
       </ul>
 
-     <form action="https://formsubmit.co/rookiecoachhO@gmail.com"
-      method="POST">
-
-  <input type="hidden" name="_subject"
-         value="Nuevo entrenador: guía gratis F8">
-
-  <input type="hidden" name="_template" value="table">
-
-  <input type="hidden" name="_autoresponse"
-         value="¡Gracias por confiar en Rookie Coach! Aquí tienes tu guía gratuita de 5 ejercicios de Fútbol 8: https://rookie-coach-six.vercel.app/guia-5-ejercicios-futbol8.pdf">
-
-  <input type="hidden" name="_next"
-         value="https://rookie-coach-six.vercel.app/gracias.html">
-
-  <label class="l" for="email">¿A qué email te aviso de nuevos ejercicios?</label>
-
-  <div class="row">
-    <input id="email" type="email" name="email"
-           placeholder="tu@email.com" required>
-
-    <button type="submit">Descargar gratis ↓</button>
-  </div>
-
-  <label class="ok">
-    <input type="checkbox" name="consentimiento"
-           value="Aceptado" required>
-    Acepto recibir emails de Rookie Coach con ejercicios y novedades.
-    Puedes darte de baja cuando quieras.
-  </label>
-</form>
+      <form id="f" data-email="rookiecoachh@gmail.com" novalidate>
+        <label class="l" for="email">¿A qué email te aviso de nuevos ejercicios?</label>
+        <div class="row">
+          <input id="email" type="email" name="email" placeholder="tu@email.com" autocomplete="email" required>
+          <button id="b" type="submit">Descargar gratis ↓</button>
+        </div>
+        <label class="ok"><input id="acepto" type="checkbox" required> Acepto recibir emails de Rookie Coach con ejercicios y novedades. Puedes darte de baja cuando quieras.</label>
+        <div class="err" id="err"></div>
+      </form>
 
       <div class="done" id="done">
         <h3>¡Ya es tuya! ⚽</h3>
@@ -119,6 +97,25 @@
   <footer>Rookie Coach · ejercicios de fútbol base · Sígueme en TikTok para más ejercicios</footer>
 </div>
 
-
+<script>
+const f = document.getElementById('f'), err = document.getElementById('err'), b = document.getElementById('b');
+f.addEventListener('submit', async (e) => {
+  e.preventDefault(); err.textContent = '';
+  const email = f.email.value.trim();
+  if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) { err.textContent = 'Revisa el email.'; return; }
+  if (!document.getElementById('acepto').checked) { err.textContent = 'Marca la casilla para continuar.'; return; }
+  b.disabled = true; b.textContent = 'Un momento…';
+  try {
+    const ctl = new AbortController(); setTimeout(() => ctl.abort(), 2500);  // como mucho 2,5 s de espera
+    await fetch('https://formsubmit.co/ajax/' + f.dataset.email, {
+      method: 'POST', keepalive: true, signal: ctl.signal, headers: {'Content-Type': 'application/json', 'Accept': 'application/json'},
+      body: JSON.stringify({ email, _subject: 'Nuevo entrenador: guía gratis F8', _template: 'table', origen: 'guia-5-ejercicios',
+        _autoresponse: '¡Gracias por confiar en Rookie Coach! Aquí tienes tu guía gratuita de 5 ejercicios de Fútbol 8: ' + location.origin + '/guia-5-ejercicios-futbol8.pdf' })
+    });
+  } catch (_) { /* aunque falle el aviso, la guía se descarga igual */ }
+  f.style.display = 'none'; document.getElementById('done').style.display = 'block';
+  document.getElementById('dl').click();
+});
+</script>
 </body>
 </html>
