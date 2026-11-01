@@ -72,7 +72,7 @@
         <li><b>5</b>4 porterías <small>· toma de decisión</small></li>
       </ul>
 
-      <form id="f" data-email="rookiecoachh@gmail.com" novalidate>
+      <form id="f" data-email="rookiecoachh@gmail.com" data-script="" novalidate>
         <label class="l" for="email">¿A qué email te aviso de nuevos ejercicios?</label>
         <div class="row">
           <input id="email" type="email" name="email" placeholder="tu@email.com" autocomplete="email" required>
@@ -106,12 +106,19 @@ f.addEventListener('submit', async (e) => {
   if (!document.getElementById('acepto').checked) { err.textContent = 'Marca la casilla para continuar.'; return; }
   b.disabled = true; b.textContent = 'Un momento…';
   try {
-    const ctl = new AbortController(); setTimeout(() => ctl.abort(), 2500);  // como mucho 2,5 s de espera
-    await fetch('https://formsubmit.co/ajax/' + f.dataset.email, {
-      method: 'POST', keepalive: true, signal: ctl.signal, headers: {'Content-Type': 'application/json', 'Accept': 'application/json'},
-      body: JSON.stringify({ email, _subject: 'Nuevo entrenador: guía gratis F8', _template: 'table', origen: 'guia-5-ejercicios',
-        _autoresponse: '¡Gracias por confiar en Rookie Coach! Aquí tienes tu guía gratuita de 5 ejercicios de Fútbol 8: ' + location.origin + '/guia-5-ejercicios-futbol8.pdf' })
-    });
+    const espera = new Promise(r => setTimeout(r, 2500));  // como mucho 2,5 s; el envío sigue en segundo plano
+    let envio;
+    if (f.dataset.script) {   // Google Apps Script: guarda el email en la hoja y le manda la guía desde tu Gmail
+      envio = fetch(f.dataset.script, { method: 'POST', mode: 'no-cors', keepalive: true,
+        body: new URLSearchParams({ email, origen: 'guia-5-ejercicios' }) });
+    } else {
+      envio = fetch('https://formsubmit.co/ajax/' + f.dataset.email, {
+        method: 'POST', keepalive: true, headers: {'Content-Type': 'application/json', 'Accept': 'application/json'},
+        body: JSON.stringify({ email, _subject: 'Nuevo entrenador: guía gratis F8', _template: 'table', origen: 'guia-5-ejercicios',
+          _autoresponse: '¡Gracias por confiar en Rookie Coach! Aquí tienes tu guía gratuita de 5 ejercicios de Fútbol 8: ' + location.origin + '/guia-5-ejercicios-futbol8.pdf' })
+      });
+    }
+    await Promise.race([envio.catch(() => {}), espera]);
   } catch (_) { /* aunque falle el aviso, la guía se descarga igual */ }
   f.style.display = 'none'; document.getElementById('done').style.display = 'block';
   document.getElementById('dl').click();
