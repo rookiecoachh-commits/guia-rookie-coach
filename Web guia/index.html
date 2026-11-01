@@ -119,23 +119,6 @@
   <footer>Rookie Coach · ejercicios de fútbol base · Sígueme en TikTok para más ejercicios</footer>
 </div>
 
-<script>
-const f = document.getElementById('f'), err = document.getElementById('err'), b = document.getElementById('b');
-f.addEventListener('submit', async (e) => {
-  e.preventDefault(); err.textContent = '';
-  const email = f.email.value.trim();
-  if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) { err.textContent = 'Revisa el email.'; return; }
-  if (!document.getElementById('acepto').checked) { err.textContent = 'Marca la casilla para continuar.'; return; }
-  b.disabled = true; b.textContent = 'Un momento…';
-  try {
-    await fetch('https://formsubmit.co/ajax/' + f.dataset.email, {
-      method: 'POST', headers: {'Content-Type': 'application/json', 'Accept': 'application/json'},
-      body: JSON.stringify({ email, _subject: 'Nuevo entrenador: guía gratis F8', _template: 'table', origen: 'guia-5-ejercicios' })
-    });
-  } catch (_) { /* aunque falle el aviso, la guía se descarga igual */ }
-  f.style.display = 'none'; document.getElementById('done').style.display = 'block';
-  document.getElementById('dl').click();
-});
-</script>
+
 </body>
 </html>
